@@ -47,13 +47,13 @@ export class DoctorLogin {
     this.errorMessage = '';
     const { email, password } = this.loginForm.value;
     this.authService.login(email, password).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.loading = false;
         if (res.success) {
           this.router.navigate(['/doctor/dashboard/home']);
         }
       },
-      error: (err) => {
+      error: (err: any) => {
         this.loading = false;
         this.errorMessage = err.error?.message || 'Invalid credentials. Please try again.';
       }
