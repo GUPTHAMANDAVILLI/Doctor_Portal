@@ -1,0 +1,112 @@
+<div class="flex h-screen bg-slate-50 overflow-hidden">
+
+  <!-- Mobile Backdrop Overlay -->
+  <div *ngIf="sidebarOpen" (click)="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 z-30 lg:hidden"></div>
+
+  <!-- Left Sidebar (Basic Slate/Blue) -->
+  <aside class="fixed lg:static inset-y-0 left-0 w-56 flex flex-col flex-shrink-0 bg-slate-900 border-r border-slate-800 z-40 transform transition-transform duration-200"
+         [class.translate-x-0]="sidebarOpen"
+         [class.-translate-x-full]="!sidebarOpen && true"
+         [class.lg:translate-x-0]="true">
+
+    <!-- Hospital Brand Header -->
+    <div class="px-4 py-4 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded bg-blue-600 flex items-center justify-center font-bold text-sm text-white shrink-0">
+          UC
+        </div>
+        <div class="min-w-0">
+          <p class="text-white text-sm font-bold truncate">Uma Clinic</p>
+          <p class="text-blue-400 text-[11px] truncate font-medium">Doctor Portal</p>
+        </div>
+      </div>
+      <button (click)="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white p-1">✕</button>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="flex-1 px-3 py-4 space-y-1">
+
+      <div class="sidebar-link" [class.active]="activeRoute === 'home'" (click)="navigate('home')">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+        </svg>
+        <span>Home</span>
+      </div>
+
+      <div class="sidebar-link" [class.active]="activeRoute === 'my-patients'" (click)="navigate('my-patients')">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        <span>My Patients</span>
+      </div>
+
+      <div class="sidebar-link" [class.active]="activeRoute === 'capture-lead'" (click)="navigate('capture-lead')">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+        </svg>
+        <span>Capture Lead</span>
+      </div>
+
+      <div class="sidebar-link" [class.active]="activeRoute === 'payment-status'" (click)="navigate('payment-status')">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 03-3 3z"/>
+        </svg>
+        <span>Payment Status</span>
+      </div>
+
+    </nav>
+
+    <!-- Doctor Profile + Logout -->
+    <div class="px-3 py-4 border-t border-slate-800">
+      <div class="flex items-center gap-2.5 mb-3 px-2">
+        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold text-white shrink-0">
+          {{ getInitials(doctor?.name || 'Dr. Reddy') }}
+        </div>
+        <div class="min-w-0">
+          <p class="text-white text-xs font-semibold truncate">{{ doctor?.name || 'Dr. Reddy' }}</p>
+          <p class="text-slate-400 text-[11px] truncate">{{ doctor?.specialization || 'ENT Specialist' }}</p>
+        </div>
+      </div>
+      <button (click)="logout()"
+        class="w-full flex items-center justify-center gap-2 py-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+        </svg>
+        Logout
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-50">
+
+    <!-- Simple Top Header -->
+    <header class="h-14 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-3">
+        <button (click)="toggleSidebar()" class="lg:hidden text-slate-600 p-1">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <h2 class="text-sm font-bold text-slate-800 capitalize">
+          {{ activeRoute.replace('-', ' ') }}
+        </h2>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <span class="text-xs text-slate-500 font-medium hidden sm:inline">Uma Clinic ENT Portal</span>
+        <button (click)="navigate('capture-lead')" class="px-3 py-1.5 rounded bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold cursor-pointer">
+          + Capture Lead
+        </button>
+      </div>
+    </header>
+
+    <!-- Main View Outlet -->
+    <main class="flex-1 overflow-y-auto bg-slate-50 text-slate-800 relative">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+
+</div>
