@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth';
+import { getApiBaseUrl } from './api-config';
 
 export interface Payment {
   id: number;
@@ -18,9 +18,13 @@ export interface Payment {
   preferred_appointment?: string;
 }
 
+import { AuthService } from './auth';
+
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
-  private apiUrl = 'http://localhost:5000/api/payments';
+  private get apiUrl(): string {
+    return `${getApiBaseUrl()}/api/payments`;
+  }
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

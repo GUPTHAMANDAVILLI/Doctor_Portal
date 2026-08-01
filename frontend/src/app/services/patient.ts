@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth';
+import { getApiBaseUrl } from './api-config';
 
 export interface Patient {
   id: number;
@@ -33,9 +33,13 @@ export interface PatientStats {
   total_earned: number;
 }
 
+import { AuthService } from './auth';
+
 @Injectable({ providedIn: 'root' })
 export class PatientService {
-  private apiUrl = 'http://localhost:5000/api/patients';
+  private get apiUrl(): string {
+    return `${getApiBaseUrl()}/api/patients`;
+  }
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
