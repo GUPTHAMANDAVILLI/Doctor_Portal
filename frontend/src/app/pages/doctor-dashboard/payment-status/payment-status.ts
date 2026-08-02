@@ -13,7 +13,6 @@ export class PaymentStatus implements OnInit {
   loading = false;
   searchQuery = '';
   activeFilter: 'All' | 'In Treatment' | 'Treated' = 'All';
-  genderFilter: 'All' | 'Male' | 'Female' | 'Other' = 'All';
 
   constructor(
     private paymentService: PaymentService,
@@ -32,13 +31,7 @@ export class PaymentStatus implements OnInit {
       if (this.activeFilter === 'In Treatment' && patientStatus !== 'In Treatment') return false;
       if (this.activeFilter === 'Treated' && patientStatus !== 'Treated') return false;
 
-      // 2. Gender Filter (AND logic)
-      if (this.genderFilter !== 'All') {
-        const patientGender = (p.gender || '').toLowerCase().trim();
-        if (patientGender && patientGender !== this.genderFilter.toLowerCase()) return false;
-      }
-
-      // 3. Search Query Filter (AND logic)
+      // 2. Search Query Filter (AND logic)
       if (this.searchQuery) {
         const q = this.searchQuery.toLowerCase().trim();
         const fullName = `${p.first_name || ''} ${p.last_name || ''}`.toLowerCase();
@@ -55,10 +48,6 @@ export class PaymentStatus implements OnInit {
 
   setFilter(filter: 'All' | 'In Treatment' | 'Treated'): void {
     this.activeFilter = filter;
-  }
-
-  setGenderFilter(gender: 'All' | 'Male' | 'Female' | 'Other'): void {
-    this.genderFilter = gender;
   }
 
   loadPayments(): void {

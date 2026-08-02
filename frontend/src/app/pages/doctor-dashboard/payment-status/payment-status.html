@@ -35,7 +35,7 @@
 
   </div>
 
-  <!-- Search & Combined Filters (Status + Gender) -->
+  <!-- Search & Status Filter -->
   <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
     <!-- Search Bar -->
     <div class="relative flex-1 max-w-md">
@@ -46,7 +46,7 @@
         class="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-800 outline-none focus:border-blue-500 shadow-sm"/>
     </div>
 
-    <!-- Combined Filter Pills: Status & Gender -->
+    <!-- Status Filter Pills -->
     <div class="flex flex-wrap items-center gap-2">
       <!-- Status Filter Buttons (All, In Treatment, Treated) -->
       <div class="flex items-center p-1 bg-slate-100 rounded-lg border border-slate-200 gap-1">
@@ -73,43 +73,6 @@
           [class.shadow-sm]="activeFilter === 'Treated'"
           [class.text-slate-500]="activeFilter !== 'Treated'">
           Treated
-        </button>
-      </div>
-
-      <!-- Gender Filter Buttons (All, Male, Female, Other) -->
-      <div class="flex items-center p-1 bg-slate-100 rounded-lg border border-slate-200 gap-1">
-        <span class="text-[11px] text-slate-400 font-semibold px-1.5">Gender:</span>
-        <button (click)="setGenderFilter('All')"
-          class="px-2.5 py-1 rounded text-xs font-semibold cursor-pointer transition-all"
-          [class.bg-white]="genderFilter === 'All'"
-          [class.text-slate-900]="genderFilter === 'All'"
-          [class.shadow-sm]="genderFilter === 'All'"
-          [class.text-slate-500]="genderFilter !== 'All'">
-          All
-        </button>
-        <button (click)="setGenderFilter('Male')"
-          class="px-2.5 py-1 rounded text-xs font-semibold cursor-pointer transition-all"
-          [class.bg-blue-600]="genderFilter === 'Male'"
-          [class.text-white]="genderFilter === 'Male'"
-          [class.shadow-sm]="genderFilter === 'Male'"
-          [class.text-slate-500]="genderFilter !== 'Male'">
-          Male
-        </button>
-        <button (click)="setGenderFilter('Female')"
-          class="px-2.5 py-1 rounded text-xs font-semibold cursor-pointer transition-all"
-          [class.bg-pink-600]="genderFilter === 'Female'"
-          [class.text-white]="genderFilter === 'Female'"
-          [class.shadow-sm]="genderFilter === 'Female'"
-          [class.text-slate-500]="genderFilter !== 'Female'">
-          Female
-        </button>
-        <button (click)="setGenderFilter('Other')"
-          class="px-2.5 py-1 rounded text-xs font-semibold cursor-pointer transition-all"
-          [class.bg-purple-600]="genderFilter === 'Other'"
-          [class.text-white]="genderFilter === 'Other'"
-          [class.shadow-sm]="genderFilter === 'Other'"
-          [class.text-slate-500]="genderFilter !== 'Other'">
-          Other
         </button>
       </div>
     </div>
