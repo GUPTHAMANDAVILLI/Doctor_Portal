@@ -33,7 +33,7 @@ jobs:
 
       - run: npm ci
 
-      - run: ng build --configuration production --base-href "/Doctor_Portal/"
+      - run: npx ng build --configuration production --base-href "/Doctor_Portal/"
 
       - uses: actions/upload-pages-artifact@v3
         with:
