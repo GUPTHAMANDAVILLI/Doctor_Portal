@@ -20,7 +20,9 @@ export interface LoginResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'https://doctor-portal-backend-6zix.onrender.com/api/auth';
+  private apiUrl = window.location.origin.includes('localhost') 
+    ? 'http://localhost:5000/api/auth' 
+    : 'https://doctor-portal-backend-6zix.onrender.com/api/auth';
 
   constructor(private http: HttpClient, private router: Router) { }
 

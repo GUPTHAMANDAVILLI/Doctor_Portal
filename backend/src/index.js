@@ -18,13 +18,15 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost:')) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(null, false);
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

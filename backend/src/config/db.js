@@ -211,12 +211,11 @@ const executeMockQuery = (text, params) => {
     return { rows: [] };
   }
 
-  // Update patient — full edit (12 params: first_name..cleanAppt, computedStatus, id, doctorId)
   if (queryStr.includes('update patients') && queryStr.includes('set first_name')) {
-    // params: [first_name, last_name, phone, gender, urgency_level, treatment_type,
-    //          clinical_notes, amount, preferred_appointment, status, id, doctorId]
-    const id = Number(params[10]);
-    const doctorId = Number(params[11]);
+    // params: [first_name, last_name, phone, gender, email, country, cleanAge, cleanDob, urgency_level, treatment_type,
+    // clinical_notes, amount, cleanAppt, computedStatus, id, doctorId]
+    const id = Number(params[14]);
+    const doctorId = Number(params[15]);
     const pt = mockStore.patients.find(p => Number(p.id) === id && Number(p.doctor_id) === doctorId);
     if (pt) {
       if (params[0] !== undefined && params[0] !== null) pt.first_name = params[0];
@@ -237,7 +236,7 @@ const executeMockQuery = (text, params) => {
   // Delete patient
   if (queryStr.includes('delete from patients where id')) {
     const id = Number(params[0]);
-    const doctorId = params[1] ? Number(params[1]) : null;
+    const doctorId = params[1] != null ? Number(params[1]) : null;
     const idx = mockStore.patients.findIndex(p =>
       Number(p.id) === id && (!doctorId || Number(p.doctor_id) === doctorId)
     );

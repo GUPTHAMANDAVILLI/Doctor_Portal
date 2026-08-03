@@ -197,13 +197,25 @@ export class Home implements OnInit {
     const targetId = id;
     this.deleteConfirmId = null;
 
+    // Optimistically remove from view
+    const previousPatients = [...this.recentPatients];
     this.recentPatients = this.recentPatients.filter(p => p.id !== targetId);
     this.recalculateStats(this.recentPatients);
     this.cdr.detectChanges();
 
     this.patientService.deletePatient(targetId).subscribe({
-      next: () => this.loadStatsAndPatients(),
-      error: () => this.loadStatsAndPatients()
+      next: () => {
+        this.loadStatsAndPatients();
+      },
+      error: (err) => {
+        console.error('Delete failed:', err);
+        alert('Failed to delete patient. Please try again.');
+        // Revert local optimistic update
+        this.recentPatients = previousPatients;
+        this.recalculateStats(this.recentPatients);
+        this.cdr.detectChanges();
+        this.loadStatsAndPatients();
+      }
     });
   }
 

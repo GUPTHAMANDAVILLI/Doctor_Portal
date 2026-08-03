@@ -198,8 +198,8 @@ const updatePatient = async (req, res) => {
 // DELETE /api/patients/:id - Delete Patient
 const deletePatient = async (req, res) => {
   try {
-    const { id } = req.params;
-    const doctorId = parseInt(req.doctor.id) || 1;
+    const id = parseInt(req.params.id, 10);
+    const doctorId = parseInt(req.doctor.id, 10) || 1;
 
     // Delete payments associated first
     await db.query('DELETE FROM payments WHERE patient_id = $1', [id]);
@@ -211,7 +211,7 @@ const deletePatient = async (req, res) => {
 
     res.status(200).json({ success: true, message: 'Patient deleted successfully.' });
   } catch (error) {
-    console.error('Delete patient error:', error);
+    console.error(`Delete patient error for ID ${req.params.id}:`, error);
     res.status(500).json({ success: false, message: 'Internal server error.' });
   }
 };

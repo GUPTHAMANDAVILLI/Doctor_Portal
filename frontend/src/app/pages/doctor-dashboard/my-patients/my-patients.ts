@@ -235,12 +235,24 @@ export class MyPatients implements OnInit {
     const targetId = id;
     this.deleteConfirmId = null;
 
+    // Optimistically remove from view
+    const previousPatients = [...this.allPatients];
     this.allPatients = this.allPatients.filter(p => p.id !== targetId);
     this.recalculateStats();
 
     this.patientService.deletePatient(targetId).subscribe({
-      next: () => this.loadPatients(),
-      error: () => this.loadPatients()
+      next: () => {
+        // Success - reload patients just to be in sync
+        this.loadPatients();
+      },
+      error: (err) => {
+        console.error('Delete failed:', err);
+        alert('Failed to delete patient. Please try again.');
+        // Revert local optimistic update
+        this.allPatients = previousPatients;
+        this.recalculateStats();
+        this.loadPatients();
+      }
     });
   }
 

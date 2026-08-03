@@ -35,7 +35,9 @@ export interface PatientStats {
 
 @Injectable({ providedIn: 'root' })
 export class PatientService {
-  private apiUrl = 'https://doctor-portal-backend-6zix.onrender.com/api/patients';
+  private apiUrl = window.location.origin.includes('localhost') 
+    ? 'http://localhost:5000/api/patients' 
+    : 'https://doctor-portal-backend-6zix.onrender.com/api/patients';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 

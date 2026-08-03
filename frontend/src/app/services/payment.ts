@@ -20,7 +20,9 @@ export interface Payment {
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
-  private apiUrl = 'https://doctor-portal-backend-6zix.onrender.com/api/payments';
+  private apiUrl = window.location.origin.includes('localhost') 
+    ? 'http://localhost:5000/api/payments' 
+    : 'https://doctor-portal-backend-6zix.onrender.com/api/payments';
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
