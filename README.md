@@ -83,7 +83,8 @@ The application follows a **client-server architecture**, where the Angular fron
 
 ✔ PostgreSQL hosted on Neon
 
-✔ Fully Connected REST Architecture
+✔ Fully Connected REST Architecture 
+
 
 ---
 
